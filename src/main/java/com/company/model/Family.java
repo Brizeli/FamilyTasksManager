@@ -10,23 +10,20 @@ import java.util.List;
  * Created by Next on 16.11.2016.
  */
 @Entity
-public class Family extends BaseEntity{
-    private String name;
+public class Family extends BaseEntity {
     @OneToMany(mappedBy = "family", cascade = CascadeType.REMOVE)
     private List<FamilyMember> members;
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "family")
+    private List<Task> tasks;
 
     public Family() {}
 
     public Family(String name) {
-        this.name = name;
+        super(name);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public Family(int id, String name) {
+        super(id,name);
     }
 
     public List<FamilyMember> getMembers() {
@@ -37,10 +34,16 @@ public class Family extends BaseEntity{
         this.members = members;
     }
 
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
     @Override
     public String toString() {
-        return "Family{" +
-                   "name='" + name + '\'' +
-                   "} " + super.toString();
+        return "Family{" + super.toString() + '}';
     }
 }

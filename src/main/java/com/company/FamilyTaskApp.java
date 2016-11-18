@@ -10,12 +10,14 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 public class FamilyTaskApp {
     public static void main(String[] args) {
         AbstractApplicationContext ctx = new FileSystemXmlApplicationContext("classpath:spring-cfg.xml");
-        FamilyTaskGenerator familyGenerator = (FamilyTaskGenerator) ctx.getBean("familyGenerator");
-        familyGenerator.clearDb();
+        FamilyGenerator familyGenerator = (FamilyGenerator) ctx.getBean("familyGenerator");
+//        familyGenerator.clearDb();
         familyGenerator.generateFamilies();
         FamilyTasksController controller = ctx.getBean(FamilyTasksController.class);
         controller.run();
 //        controller.mmm();
+        System.out.println("\n\n--------Statisticts-------\n");
+        controller.printStatistics();
         ctx.close();
     }
 }

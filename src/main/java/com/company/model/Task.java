@@ -6,23 +6,19 @@ import javax.persistence.*;
  * Created by Next on 15.11.2016.
  */
 @Entity
-public class Task extends BaseEntity{
-    private String description;
+public class Task extends BaseEntity {
     private boolean isFinished = false;
     @ManyToOne
-    private FamilyMember familyMember;
+    private Family family;
+    @OneToOne
+    private FamilyMember memberAdded;
+    @OneToOne
+    private FamilyMember memberDeleted;
+
     public Task() {}
 
-    public Task(String description) {
-        this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public Task(String name) {
+        super(name);
     }
 
     public boolean isFinished() {
@@ -33,21 +29,32 @@ public class Task extends BaseEntity{
         isFinished = finished;
     }
 
-
-    public FamilyMember getFamilyMember() {
-        return familyMember;
+    public Family getFamily() {
+        return family;
     }
 
-    public void setFamilyMember(FamilyMember familyMember) {
-        this.familyMember = familyMember;
+    public void setFamily(Family family) {
+        this.family = family;
     }
 
     @Override
     public String toString() {
-        return "Task{" +
-                   "description='" + description + '\'' +
-                   ", isFinished=" + isFinished +
-                   ", familyMember=" + familyMember +
-                   "} " + super.toString();
+        return "Task{" + super.toString() + ", isFinished=" + isFinished + '}';
+    }
+
+    public FamilyMember getMemberAdded() {
+        return memberAdded;
+    }
+
+    public void setMemberAdded(FamilyMember memberAdded) {
+        this.memberAdded = memberAdded;
+    }
+
+    public FamilyMember getMemberDeleted() {
+        return memberDeleted;
+    }
+
+    public void setMemberDeleted(FamilyMember memberDeleted) {
+        this.memberDeleted = memberDeleted;
     }
 }

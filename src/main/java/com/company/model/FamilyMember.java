@@ -11,32 +11,17 @@ import java.util.List;
  */
 @Entity
 public class FamilyMember extends BaseEntity {
-    private String name;
     @ManyToOne
     private Family family;
-    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "familyMember")
-    private List<Task> tasks;
 
     public FamilyMember() {}
 
     public FamilyMember(String name) {
-        this.name = name;
+        super(name);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
+    public FamilyMember(int id, String name) {
+        super(id, name);
     }
 
     public Family getFamily() {
@@ -49,9 +34,6 @@ public class FamilyMember extends BaseEntity {
 
     @Override
     public String toString() {
-        return "FamilyMember{" +
-                   "name='" + name + '\'' +
-                   ", family=" + family +
-                   "} " + super.toString();
+        return "FamilyMember{" + super.toString() + ", " + family + '}';
     }
 }

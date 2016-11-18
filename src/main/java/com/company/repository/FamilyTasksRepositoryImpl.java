@@ -1,16 +1,17 @@
 package com.company.repository;
 
+import com.company.model.BaseEntity;
 import com.company.model.Family;
 import com.company.model.FamilyMember;
 import com.company.model.Task;
-import org.apache.commons.logging.impl.Log4JLogger;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ import java.util.List;
  */
 @Repository
 public class FamilyTasksRepositoryImpl implements FamilyTasksRepository {
-
+    private DateFormat df = new SimpleDateFormat("hh:mm:ss");
     @PersistenceContext
     private EntityManager em;
 
@@ -33,54 +34,32 @@ public class FamilyTasksRepositoryImpl implements FamilyTasksRepository {
     }
 
     @Override
-    @Transactional
-    public Task addTask(FamilyMember member) {
-        List<Task> freeTasks = em.createQuery("from Task where isFinished=false and familyMember=null", Task.class)
-                                 .getResultList();
-        if (freeTasks.isEmpty()) return null;
-        Task task = freeTasks.get(0);
-        task.setFamilyMember(member);
-        System.out.printf(new Date() + "Member %s from Family %s added a Task %s\n", member.getName(),
-            member.getFamily().getName(), task.getDescription());
-        return task;
-    }
-
-    @Override
-    @Transactional
-    public Task deleteTask(FamilyMember member) {
-        List<Task> memberTasks = em.createQuery("from Task t where t.familyMember.id=:memberId", Task.class)
-                                   .setParameter("memberId", member.getId())
-                                   .getResultList();
-        Task memberTask = null;
-        for (Task task : memberTasks) {
-            if (!task.isFinished())
-                memberTask = task;
-        }
-        if (memberTask == null) {
-            System.out.printf("Member %s from Family %s has no tasks\n",
-                member.getName(), member.getFamily().getName());
-            return null;
-        }
-        Task task = em.find(Task.class, memberTask.getId());
-        task.setFinished(true);
-        System.out.printf(new Date() + "Member %s from Family %s finished a Task %s\n", member.getName(),
-            member.getFamily().getName(), task.getDescription());
-        return task;
-    }
-
-    @Override
-    public List<Task> getAllUnfinishedTasks() {
-        return em.createQuery("from Task where isFinished=false", Task.class).getResultList();
-    }
-
-    @Override
     public List<Task> getAllTasks() {
         return em.createQuery("from Task", Task.class).getResultList();
     }
 
     @Override
-    public List<FamilyMember> getAllFamilyMembersWithTasks() {
-        em.createQuery("from FamilyMember m left join fetch m.tasks");
-        return null;
+    @Transactional
+    public Task deleteTask(FamilyMember member) {
+        List<Task> familyTasks =
+            em.createQuery("from Task t where t.isFinished=false and t.family.id=:familyId", Task.class)
+              .setParameter("familyId", member.getFamily().getId())
+              .getResultList();
+        if (familyTasks.isEmpty()) return null;
+        Task task = familyTasks.get(0);
+        task.setFinished(true);
+        task.setMemberDeleted(member);
+        return task;
+    }
+
+    @Override
+    @Transactional
+    public <T extends BaseEntity> T save(T entity) {
+        if (entity.getId() == null) {
+            em.persist(entity);
+        } else {
+            em.merge(entity);
+        }
+        return entity;
     }
 }

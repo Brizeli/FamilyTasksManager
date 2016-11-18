@@ -1,5 +1,6 @@
 package com.company.repository;
 
+import com.company.model.BaseEntity;
 import com.company.model.Family;
 import com.company.model.FamilyMember;
 import com.company.model.Task;
@@ -14,14 +15,10 @@ public interface FamilyTasksRepository {
 
     List<Family> getAllFamilies();
 
-    Task addTask(FamilyMember member);
-
     Task deleteTask(FamilyMember member);
-
-    List<Task> getAllUnfinishedTasks();
 
     List<Task> getAllTasks();
 
-    List<FamilyMember> getAllFamilyMembersWithTasks();
+    <T extends BaseEntity> T save(T o);
 
 }

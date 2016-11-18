@@ -9,13 +9,22 @@ import java.io.Serializable;
 @MappedSuperclass
 public abstract class BaseEntity {
     @Id
-    @SequenceGenerator(name = "global_seq",allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
-    private int id;
+    @GeneratedValue
+    protected Integer id;
 
+    protected String name;
     public BaseEntity() {}
 
-    public int getId() {
+    public BaseEntity(String name) {
+        this.name=name;
+    }
+
+    public BaseEntity(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Integer getId() {
         return id;
     }
 
@@ -28,16 +37,25 @@ public abstract class BaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BaseEntity that = (BaseEntity) o;
-        return id == that.id;
+        return id != null ? id.equals(that.id) : that.id == null;
     }
 
     @Override
     public int hashCode() {
-        return id;
+        return id == null ? 0 : id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
     public String toString() {
-        return "id=" + id;
+        return "id=" + id +
+                   ", '" + name + '\'';
     }
 }
