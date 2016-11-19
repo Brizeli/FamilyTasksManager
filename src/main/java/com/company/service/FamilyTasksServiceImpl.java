@@ -1,5 +1,7 @@
 package com.company.service;
 
+import com.company.FamilyTaskLogger;
+import com.company.FamilyTaskLoggerImpl;
 import com.company.model.BaseEntity;
 import com.company.model.Family;
 import com.company.model.FamilyMember;
@@ -18,6 +20,7 @@ import java.util.List;
  */
 @Service
 public class FamilyTasksServiceImpl implements FamilyTasksService {
+    private final static FamilyTaskLogger LOGGER = new FamilyTaskLoggerImpl();
     private final DateFormat df = new SimpleDateFormat("hh:mm:ss");
 
     @Autowired
@@ -25,19 +28,19 @@ public class FamilyTasksServiceImpl implements FamilyTasksService {
 
     @Override
     public List<FamilyMember> getAllFamilyMembers() {
-        System.out.println("Getting all family members");
+        LOGGER.log("Getting all family members");
         return repository.getAllFamilyMembers();
     }
 
     @Override
     public List<Task> getAllTasks() {
-        System.out.println("Getting all tasks");
+        LOGGER.log("Getting all tasks");
         return repository.getAllTasks();
     }
 
     @Override
     public List<Family> getAllFamilies() {
-        System.out.println("Getting all families");
+        LOGGER.log("Getting all families");
         return repository.getAllFamilies();
     }
 
@@ -46,7 +49,7 @@ public class FamilyTasksServiceImpl implements FamilyTasksService {
         task.setFamily(member.getFamily());
         task.setMemberAdded(member);
         task = repository.save(task);
-        System.out.printf("%s %s added a task %s\n", df.format(new Date()), member, task);
+        LOGGER.log(df.format(new Date()), String.format("%s has added %s", member, task));
         return task;
     }
 
@@ -54,14 +57,14 @@ public class FamilyTasksServiceImpl implements FamilyTasksService {
     public Task deleteTask(FamilyMember member) {
         Task task = repository.deleteTask(member);
         if (task == null)
-            System.out.printf("%s has no tasks\n", member.getFamily());
-        else System.out.printf("%s %s has finished %s\n", df.format(new Date()), member, task);
+            LOGGER.log(member.getFamily() + " has no tasks");
+        else LOGGER.log(df.format(new Date()), String.format("%s has finished %s", member, task));
         return task;
     }
 
     @Override
     public <T extends BaseEntity> void save(T entity) {
         entity = repository.save(entity);
-        System.out.printf("%s Saving %s\n", df.format(new Date()), entity);
+        LOGGER.log(df.format(new Date()), "Saving " + entity);
     }
 }

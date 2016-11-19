@@ -1,5 +1,7 @@
 package com.company.controller;
 
+import com.company.FamilyTaskLogger;
+import com.company.FamilyTaskLoggerImpl;
 import com.company.MemberManager;
 import com.company.model.*;
 import com.company.service.FamilyTasksService;
@@ -16,6 +18,7 @@ public class FamilyTasksController {
     private static final int DURATION = 100;
     private static final int MIN_SLEEP = 500;
     private static final int MAX_SLEEP = 1000;
+    private static final FamilyTaskLogger LOGGER = new FamilyTaskLoggerImpl();
     @Autowired
     FamilyTasksService service;
 
@@ -34,7 +37,7 @@ public class FamilyTasksController {
     }
 
     public void printStatistics() {
-        System.out.println("\n\n--------Statisticts-------\n");
+        LOGGER.log("\n\n--------Statisticts-------\n");
         List<Task> allTasks = service.getAllTasks();
         Map<FamilyMember, Integer[]> membersTaskMap = new HashMap<>();
         Map<Family, Integer> familyTaskMap = new HashMap<>();
@@ -60,13 +63,13 @@ public class FamilyTasksController {
         for (Map.Entry<FamilyMember, Integer[]> entry : membersTaskMap.entrySet()) {
             FamilyMember member = entry.getKey();
             Integer addedTasks = entry.getValue()[0];
-            System.out.printf("%s added %d and finished %d tasks\n", member, addedTasks, entry.getValue()[1]);
+            LOGGER.log(String.format("%s added %d and finished %d tasks", member, addedTasks, entry.getValue()[1]));
             if (addedTasks > maxAdded) {
                 maxAdded = addedTasks;
                 memberMaxTasks = member;
             }
         }
-        System.out.printf("\n%s added maximum %d tasks\n", memberMaxTasks, maxAdded);
+        LOGGER.log(String.format("\n%s added maximum %d tasks", memberMaxTasks, maxAdded));
         maxAdded = 0;
         Family familyWithMaxTasks = new Family();
         for (Map.Entry<Family, Integer> entry : familyTaskMap.entrySet()) {
@@ -76,22 +79,7 @@ public class FamilyTasksController {
                 familyWithMaxTasks = entry.getKey();
             }
         }
-        System.out.printf("\nFamily %s has maximum %d tasks\n", familyWithMaxTasks, maxAdded);
-    }
-
-    public void printAll() {
-        List<Family> allFamilies = service.getAllFamilies();
-        for (Family family : allFamilies) {
-            System.out.println(family);
-        }
-        List<FamilyMember> allFamilyMembers = service.getAllFamilyMembers();
-        for (FamilyMember familyMember : allFamilyMembers) {
-            System.out.println(familyMember);
-        }
-        List<Task> allTasks = service.getAllTasks();
-        for (Task task : allTasks) {
-            System.out.println(task);
-        }
+        LOGGER.log(String.format("\nFamily %s has maximum %d tasks", familyWithMaxTasks, maxAdded));
     }
 
     public Task addTask(FamilyMember member, Task task) {
@@ -101,6 +89,21 @@ public class FamilyTasksController {
     public Task deleteTask(FamilyMember member) {
         synchronized (member.getFamily()) {
             return service.deleteTask(member);
+        }
+    }
+
+    public void printAll() {
+        List<Family> allFamilies = service.getAllFamilies();
+        for (Family family : allFamilies) {
+            LOGGER.log(family);
+        }
+        List<FamilyMember> allFamilyMembers = service.getAllFamilyMembers();
+        for (FamilyMember familyMember : allFamilyMembers) {
+            LOGGER.log(familyMember);
+        }
+        List<Task> allTasks = service.getAllTasks();
+        for (Task task : allTasks) {
+            LOGGER.log(task);
         }
     }
 }
