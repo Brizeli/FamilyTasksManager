@@ -16,7 +16,7 @@ import java.util.*;
  */
 @Controller
 public class FamilyTasksController {
-    private static final int DURATION = 10;
+    private static final int DURATION = 100;
     private static final int MIN_SLEEP = 500;
     private static final int MAX_SLEEP = 1000;
     @Autowired
@@ -37,6 +37,7 @@ public class FamilyTasksController {
     }
 
     public void printStatistics() {
+        System.out.println("\n\n--------Statisticts-------\n");
         List<Task> allTasks = service.getAllTasks();
         Map<FamilyMember, Integer[]> membersTaskMap = new HashMap<>();
         Map<Family, Integer> familyTaskMap = new HashMap<>();

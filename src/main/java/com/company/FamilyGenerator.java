@@ -4,10 +4,12 @@ import com.company.model.Family;
 import com.company.model.FamilyMember;
 import com.company.service.FamilyTasksService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by Next on 16.11.2016.
  */
+@Component
 public class FamilyGenerator {
     private int numberOfFamilies;
     private int minMembers;

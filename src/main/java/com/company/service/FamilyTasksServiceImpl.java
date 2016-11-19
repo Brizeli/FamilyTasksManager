@@ -55,7 +55,7 @@ public class FamilyTasksServiceImpl implements FamilyTasksService {
         Task task = repository.deleteTask(member);
         if (task == null)
             System.out.printf("%s has no tasks\n", member.getFamily());
-        else System.out.printf("%s %s has finished a task %s\n", df.format(new Date()), member, task);
+        else System.out.printf("%s %s has finished %s\n", df.format(new Date()), member, task);
         return task;
     }
 
