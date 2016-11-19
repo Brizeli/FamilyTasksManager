@@ -1,10 +1,6 @@
 package com.company.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import java.util.List;
+import javax.persistence.*;
 
 /**
  * Created by Next on 16.11.2016.

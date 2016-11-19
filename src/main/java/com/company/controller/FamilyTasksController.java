@@ -1,10 +1,7 @@
 package com.company.controller;
 
-import com.company.FamilyGenerator;
 import com.company.MemberManager;
-import com.company.model.Family;
-import com.company.model.FamilyMember;
-import com.company.model.Task;
+import com.company.model.*;
 import com.company.service.FamilyTasksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

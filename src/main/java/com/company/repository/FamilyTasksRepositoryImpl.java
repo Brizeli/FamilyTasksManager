@@ -1,9 +1,6 @@
 package com.company.repository;
 
-import com.company.model.BaseEntity;
-import com.company.model.Family;
-import com.company.model.FamilyMember;
-import com.company.model.Task;
+import com.company.model.*;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**

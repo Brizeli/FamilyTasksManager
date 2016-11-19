@@ -1,9 +1,6 @@
 package com.company.repository;
 
-import com.company.model.BaseEntity;
-import com.company.model.Family;
-import com.company.model.FamilyMember;
-import com.company.model.Task;
+import com.company.model.*;
 
 import java.util.List;
 

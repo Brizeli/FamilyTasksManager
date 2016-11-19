@@ -1,7 +1,6 @@
 package com.company.model;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 /**
  * Created by Next on 16.11.2016.
