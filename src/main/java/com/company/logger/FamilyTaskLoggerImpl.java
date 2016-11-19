@@ -1,4 +1,4 @@
-package com.company;
+package com.company.logger;
 
 /**
  * Created by Next on 19.11.2016.

@@ -1,7 +1,7 @@
 package com.company.service;
 
-import com.company.FamilyTaskLogger;
-import com.company.FamilyTaskLoggerImpl;
+import com.company.logger.FamilyTaskLogger;
+import com.company.logger.FamilyTaskLoggerImpl;
 import com.company.model.BaseEntity;
 import com.company.model.Family;
 import com.company.model.FamilyMember;

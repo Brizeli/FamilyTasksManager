@@ -1,4 +1,4 @@
-package com.company;
+package com.company.logger;
 
 import com.company.model.Family;
 

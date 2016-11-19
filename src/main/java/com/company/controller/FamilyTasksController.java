@@ -1,7 +1,7 @@
 package com.company.controller;
 
-import com.company.FamilyTaskLogger;
-import com.company.FamilyTaskLoggerImpl;
+import com.company.logger.FamilyTaskLogger;
+import com.company.logger.FamilyTaskLoggerImpl;
 import com.company.MemberManager;
 import com.company.model.*;
 import com.company.service.FamilyTasksService;
