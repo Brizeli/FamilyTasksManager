@@ -22,7 +22,7 @@ public class FamilyTasksController {
     @Autowired
     FamilyTasksService service;
 
-    public void run() {
+    public void run() throws Exception {
         List<FamilyMember> allFamilyMembers = service.getAllFamilyMembers();
         Thread[] memberManagers = new MemberManager[allFamilyMembers.size()];
         MemberManager.setDuration(DURATION);
@@ -32,13 +32,8 @@ public class FamilyTasksController {
             memberManagers[i] = new MemberManager(allFamilyMembers.get(i), this);
             memberManagers[i].start();
         }
-        for (Thread memberManager : memberManagers) {
-            try {
-                memberManager.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        for (Thread memberManager : memberManagers)
+            memberManager.join();
     }
 
     public void printStatistics() {
@@ -101,8 +96,7 @@ public class FamilyTasksController {
         }
     }
 
-    public Task addTask(FamilyMember member) {
-        Task task = new Task(String.format("Task%03d", FamilyGenerator.getRandom(0, 1000)));
+    public Task addTask(FamilyMember member, Task task) {
         return service.addTask(member, task);
     }
 

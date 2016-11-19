@@ -2,6 +2,7 @@ package com.company;
 
 import com.company.controller.FamilyTasksController;
 import com.company.model.FamilyMember;
+import com.company.model.Task;
 
 /**
  * Created by Next on 15.11.2016.
@@ -35,7 +36,7 @@ public class MemberManager extends Thread {
         for (int i = 0; i < duration; i++) {
             int addOrDelete = (int) (Math.random()*3);
             if (addOrDelete > 0) {
-                controller.addTask(member);
+                controller.addTask(member, new Task(String.format("Task%03d", FamilyGenerator.getRandom(0, 1000))));
             } else {
                 controller.deleteTask(member);
             }
